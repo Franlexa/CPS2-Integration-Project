@@ -14,7 +14,6 @@ void prepareBluetooth(){
 	mySerial.setTimeout(0);
 }
 
-
 // Checks whether there is bluetooth is available
 boolean bluetoothAvailable() { return mySerial.available(); };
 
@@ -32,6 +31,14 @@ extern void setCommandVariables(){
    * 7: Dance
    */
   String data = mySerial.readString();
+  
+  // Ensure that received data is at least 8 characters long
+  if(data.length() < 8) {
+    // Handle error, maybe print a message or take appropriate action
+    Serial.println("Error: Received data is shorter than expected!");
+    return;
+  }
+  
   data = data.substring(data.length() - 8);
 
   wPressed = data[0] == '1';
